@@ -13,6 +13,7 @@ public class KnightAnimanim : MonoBehaviour
     public int r_step_sound;
     public AudioSource steps;
     public AudioClip[] footsteps;
+    public AnimationCurve jump;
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -29,6 +30,12 @@ public class KnightAnimanim : MonoBehaviour
         sr.flipX = (direction < 0);
         anim.SetFloat("movement", Mathf.Abs(direction));
 
+        if (Input.GetKeyDown(KeyCode.W)) {
+
+            anim.SetTrigger("jump");
+        
+        }
+
         if (Input.GetMouseButtonDown(0)) {
 
 
@@ -37,7 +44,7 @@ public class KnightAnimanim : MonoBehaviour
         
         
         }
-        if (canRun == true)
+        if (canRun == true) 
         {
             transform.position += transform.right * direction * speed * Time.deltaTime;
         }
