@@ -8,15 +8,15 @@ using UnityEngine;
 public class arrow_movement : MonoBehaviour
 {
     // Start is called before the first frame update
-    public SpriteRenderer sr;
-    public GameObject self1;
-    public GameObject self2;
-    public GameObject self3;
-    public GameObject self4;
-    public GameObject target;
-    public GameObject player;
-    public bool missed = false;
-    public bool hit = false;
+    public SpriteRenderer sr; //unused variable
+    public GameObject self1; //this checks for weither the first sprite is being used
+    public GameObject self2; //this checks for weither the second sprite is being used
+    public GameObject self3; //this checks for weither the third sprite is being used
+    public GameObject self4; //this checks for weither the fourth sprite is being used
+    public GameObject target;  //this checks for the target object
+    public GameObject player; //this checks for the player object
+    public bool missed = false; //indicates to the ArrowSpawner script that the player missed the arrow
+    public bool hit = false; //indicates to the ArrowSpawner script that the player hit the arrow
     public ArrowSpawner SpawnerController;
     public float difficulty_multiplier = 1;
 
@@ -96,9 +96,10 @@ public class arrow_movement : MonoBehaviour
         
 
 
-            if (self1 != null) {
+            if (self1 != null)
+            {//this checks if the UP arrow is in the vacinity, and if the player presses the right key. It will destroy the arrow if the player pressed it.
 
-                if (Input.GetKey(KeyCode.W)) //this checks if the UP arrow is in the vacinity, and if the player presses the right key.
+                if (Input.GetKey(KeyCode.W)) 
                 {
                     SpawnerController.didhit = true; //If the player presses the right key it will toggle the "didhit" variable to true to tell the spawner script that the player hit the arrow
                     SpawnerController.judgement = "good";
@@ -155,7 +156,7 @@ public class arrow_movement : MonoBehaviour
         if (transform.position.x < -8) //this portion checks if the player missed the arrow (and to make sure the game doesn't lag destroys the key as well)
         {
             
-            if (Randommessage == 0)
+            if (Randommessage == 0) //this part was just for a funny detail, this will use a randomizer above to go through whatever will show as a miss message
             {
                 SpawnerController.judgement = "ouch";
             }
@@ -179,8 +180,9 @@ public class arrow_movement : MonoBehaviour
             {
                 SpawnerController.judgement = "well that hurt";
             }
-            SpawnerController.didnothit = true;
-            Destroy(gameObject);
+
+            SpawnerController.didnothit = true; //tells the spawner that the player missed
+            Destroy(gameObject); //destroys the arrow so theres no overload on objects (and lag)
 
         }
     }
