@@ -41,7 +41,7 @@ public class ArrowSpawner : MonoBehaviour
         
         
 
-        timer += 1 * Time.deltaTime * (difficulty/10 + 1);
+        timer += 1 * Time.deltaTime * (difficulty/2 + 1);
         
 
         if (timer >= randomTime)
