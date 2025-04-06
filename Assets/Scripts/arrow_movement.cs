@@ -17,13 +17,14 @@ public class arrow_movement : MonoBehaviour
     public GameObject player; //this checks for the player object
     public bool missed = false; //indicates to the ArrowSpawner script that the player missed the arrow
     public bool hit = false; //indicates to the ArrowSpawner script that the player hit the arrow
-    public ArrowSpawner SpawnerController;
-    public float difficulty_multiplier = 1;
+    public ArrowSpawner SpawnerController; //this will input the variables to update the spawner object
+    public float difficulty_multiplier = 1; //this will take the multiplier variable from the arrow spawner to add to this variable. This will increase the speed bsaed on the variable
+    public int type; //this is the variable that is used to tell the spawner what arrow type is used
 
 
     void Start()
     {
-
+        //This script is used to indicate the arrow positions and player accuracy. It will check if the arrows are in a certain X location in the game world, which will be where the target is, and the condition of what happens with the arrows itself. If the arrows hit, miss or if the player gets the arrows in a perfect spot.
         
         
     }
@@ -32,35 +33,35 @@ public class arrow_movement : MonoBehaviour
     void Update()
     {
         
-        Vector2 arrowpos = transform.position;
+        Vector2 arrowpos = transform.position; //this will read the position of the arrow object
 
-        arrowpos.x -= 5 * Time.deltaTime * (difficulty_multiplier/10 + 1);
-        int Randommessage = UnityEngine.Random.Range(0, 5);
+        arrowpos.x -= 5 * Time.deltaTime * (difficulty_multiplier/15 + 1); //this will make the arrow move towards the target based on the difficulty multiplier (delta time to make sure the object moves at a normal reactable speed)
+        int Randommessage = UnityEngine.Random.Range(0, 5); //this will randomize the miss message (assuming the player misses the arrow)
 
 
-        transform.position = arrowpos;
+        transform.position = arrowpos; //this will update the position of the arrow with the above code
 
-        if (transform.position.x > -5 && transform.position.x < -4) //this portion checks weither the player perfectly timed the key or not
+        if (transform.position.x > -5 && transform.position.x < -4) //this portion checks weither the player perfectly timed the key or not based on the area it was pressed (shown in the if statement itself being between -5 and -4)
         {
 
 
             if (self1 != null) //this checks if the object is using the Up arrow sprite
             {
 
-                if (Input.GetKey(KeyCode.W)) //this checks if the UP arrow is in the vacinity, and if the player presses the right key.
+                if (Input.GetKey(KeyCode.W)) //this checks if the UP arrow is in the vacinity, and if the player presses the "w" key.
                 {
 
-                    SpawnerController.PERFECT = true;
+                    SpawnerController.PERFECT = true; //this will tell the spawner object that it was a perfect hit, this is in each if statement in this section.
+                    
 
-
-                }
+}
             }
 
 
 
             if (self2 != null) //this checks if the object is using the Down arrow sprite
             {
-                if (Input.GetKey(KeyCode.S))
+                if (Input.GetKey(KeyCode.S)) //this checks if the Down arrow is in the vacinity, and if the player presses the "s" key.
                 {
 
                     SpawnerController.PERFECT = true;
@@ -71,7 +72,7 @@ public class arrow_movement : MonoBehaviour
 
             if (self3 != null) //this checks if the object is using the Left arrow sprite
             {
-                if (Input.GetKey(KeyCode.A))
+                if (Input.GetKey(KeyCode.A))//this checks if the LEFT arrow is in the vacinity, and if the player presses the "a" key.
                 {
 
                     SpawnerController.PERFECT = true;
@@ -82,7 +83,7 @@ public class arrow_movement : MonoBehaviour
 
             if (self4 != null) //this checks if the object is using the Right arrow sprite
             {
-                if (Input.GetKey(KeyCode.D))
+                if (Input.GetKey(KeyCode.D))//this checks if the RIGHT arrow is in the vacinity, and if the player presses the "d" key.
                 {
 
                     SpawnerController.PERFECT = true;
@@ -92,53 +93,62 @@ public class arrow_movement : MonoBehaviour
             }
         }
 
-            if (transform.position.x > -6 && transform.position.x < -3) {
+            if (transform.position.x > -6 && transform.position.x < -3) { //this section will check weither the arrows are in the range of the target (making the gameplay more generous as well) This is also used to continue the gameplay loop by removing the arrows and updating the spawner object based on the condition.
         
 
 
             if (self1 != null)
             {//this checks if the UP arrow is in the vacinity, and if the player presses the right key. It will destroy the arrow if the player pressed it.
 
-                if (Input.GetKey(KeyCode.W)) 
+                if (Input.GetKey(KeyCode.W)) //this checks the key that the player pressed, if the key is the right key it will continue with this section
                 {
                     SpawnerController.didhit = true; //If the player presses the right key it will toggle the "didhit" variable to true to tell the spawner script that the player hit the arrow
-                    SpawnerController.judgement = "good";
-                    Destroy(gameObject);
+                    SpawnerController.judgement = "good"; //this will indicate the player accuracy weither they hit the arrow in the radius of the "good" catagory or the "Perfect" catagory
+                    type = 1; //this will return the arrow type to the spawner
+                    SpawnerController.arrowtype = type; //(same as above comment)
+                    Destroy(gameObject); //this will delete the arrow
+                    //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right
 
                 }
             }
 
 
 
-            if (self2 != null)
+            if (self2 != null) //checks if the down arrow sprite is used
             {
                 if (Input.GetKey(KeyCode.S))
                 {
                     SpawnerController.didhit = true;
                     SpawnerController.judgement = "good";
+                    type = 2;
+
+                    SpawnerController.arrowtype = type;
                     Destroy(gameObject);
 
                 }
             }
 
-            if (self3 != null)
+            if (self3 != null) //checks if the left arrow sprite is used
             {
                 if (Input.GetKey(KeyCode.A))
             {
                     SpawnerController.didhit = true;
                     SpawnerController.judgement = "good";
+                    type = 3;
+                    SpawnerController.arrowtype = type;
                     Destroy(gameObject);
 
                 }
             }
 
-            if (self4 != null)
+            if (self4 != null) //checks if the right arrow sprite is used
             {
                 if (Input.GetKey(KeyCode.D))
                 {
                     SpawnerController.didhit = true;
-
+                    type = 4;
                     SpawnerController.judgement = "good";
+                    SpawnerController.arrowtype = type;
                     Destroy(gameObject);
 
                 }
@@ -153,7 +163,7 @@ public class arrow_movement : MonoBehaviour
 
         
 
-        if (transform.position.x < -8) //this portion checks if the player missed the arrow (and to make sure the game doesn't lag destroys the key as well)
+        if (transform.position.x < -8) //this portion checks if the player missed the arrow (and to make sure the game doesn't lag destroys the key as well) it will only occur if the arrow is past the x position at -8
         {
             
             if (Randommessage == 0) //this part was just for a funny detail, this will use a randomizer above to go through whatever will show as a miss message
