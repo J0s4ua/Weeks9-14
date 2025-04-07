@@ -6,7 +6,7 @@ public class enemy_dead : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float timer = 0.2f;
+    public float timer = 0.1f;
     void Start()
     {
         
