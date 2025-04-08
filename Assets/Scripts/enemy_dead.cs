@@ -6,7 +6,7 @@ public class enemy_dead : MonoBehaviour
 {
     // Start is called before the first frame update
 
-    public float timer = 0.1f;
+    public float timer = 0.05f;
     void Start()
     {
         
@@ -16,6 +16,8 @@ public class enemy_dead : MonoBehaviour
     void Update()
     {
         timer -= 1f * Time.deltaTime;
+        Vector2 position = transform.position;
+        position.x += 1f * Time.deltaTime;
 
         if (timer <= 0) { 
         
@@ -23,5 +25,7 @@ public class enemy_dead : MonoBehaviour
         
         
         }
+
+        transform.position = position;
     }
 }

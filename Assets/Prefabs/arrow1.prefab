@@ -104,3 +104,8 @@ MonoBehaviour:
   self4: {fileID: 0}
   target: {fileID: 0}
   player: {fileID: 0}
+  missed: 0
+  hit: 0
+  SpawnerController: {fileID: 0}
+  difficulty_multiplier: 1
+  type: 0
