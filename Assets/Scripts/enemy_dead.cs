@@ -9,7 +9,7 @@ public class enemy_dead : MonoBehaviour
     public float timer = 0.05f; //this is the timer to inducate when the object in the game will be destroyed
     void Start()
     {
-        
+        //this script is used by the death animation
     }
 
     // Update is called once per frame

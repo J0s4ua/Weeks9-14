@@ -30,9 +30,9 @@ public class ArrowSpawner : MonoBehaviour
     public AudioSource swing; //this is an audio feedback to the player telling them that they hit the mark
     public AudioSource miss; //this is an audio source feedback that tells the player that they missed
     public int arrowtype; //indicates the type of arrow that was hit
-    public int damage;
-    public int highscore;
-    public bool dead_anim_played = false;
+    public int damage; //this value stores the amount of damage done to the enemy
+    public int highscore; //this stores the highest score
+    public bool dead_anim_played = false; //this was unused
 
     void Start()
     {
