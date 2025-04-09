@@ -105,15 +105,15 @@ public class ArrowSpawner : MonoBehaviour
         {
             judgement = "PERFECT!"; //the judgement text will show the word "Perfect" as player feedback
             damage *= 2; //you will double the damage each perfect hit
-            GetComponent<Point_counter>().score += 2 * hitstreak; //it will double the score you get and multiply it by the hit streak
+            GetComponent<Point_counter>().score += 2 * hitstreak; //it will double the score you get and multiply it by the streak
             PERFECT = false; //this will turn off the if statement to make sure it does not keep looping
             print("PERFECT"); //this is another simple debug message
         }
         else //if the player does not hit the arrow perfectly in the area, it will reset the damage multiplier and set the judgement text to "good" as reference, the judgement text is on the top left
         {
 
-            damage = 1;
-            judgement = "good";
+            damage = 1; //this sets the damage to 1
+            judgement = "good"; //the judgement text will show the word "good" as player feedback
 
         }
 
@@ -124,7 +124,7 @@ public class ArrowSpawner : MonoBehaviour
         {
 
             player.SetTrigger("right_stab"); //this is the right hit animation trigger
-            arrowtype = 0;
+            arrowtype = 0; //this sets the arrow type value to 0 to set the player back to the idle state, this is used in each statement below
 
         }
 

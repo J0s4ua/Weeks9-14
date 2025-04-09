@@ -25,7 +25,7 @@ public class Point_counter : MonoBehaviour
         if (streak1 <= 1) //this will clear the streak if it is below or equal to 1
         {
 
-            streak.text = " ";
+            streak.text = " "; //this is used to clear the streak
 
         }
     }

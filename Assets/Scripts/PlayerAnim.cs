@@ -11,7 +11,7 @@ public class PlayerAnim : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        anim = GetComponent<Animator>(); //this whole script went unused
 
     }
 
