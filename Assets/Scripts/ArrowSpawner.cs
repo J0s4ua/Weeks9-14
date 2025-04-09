@@ -99,84 +99,86 @@ public class ArrowSpawner : MonoBehaviour
 
     public void hit() { //this function will cause the script below to run when called on, which will check if the player got a perfect hit, or a normal hit and do damage and give score accordingly
 
-
-        print("hit"); //a simple debug message to help me figure out any issues in the code
-        if (PERFECT) //this will check if the player got a perfect, If the player gets a perfect :
+        if (didhit)
         {
-            judgement = "PERFECT!"; //the judgement text will show the word "Perfect" as player feedback
-            damage *= 2; //you will double the damage each perfect hit
-            GetComponent<Point_counter>().score += 2 * hitstreak; //it will double the score you get and multiply it by the streak
-            PERFECT = false; //this will turn off the if statement to make sure it does not keep looping
-            print("PERFECT"); //this is another simple debug message
+            print("hit"); //a simple debug message to help me figure out any issues in the code
+            if (PERFECT) //this will check if the player got a perfect, If the player gets a perfect :
+            {
+                judgement = "PERFECT!"; //the judgement text will show the word "Perfect" as player feedback
+                damage *= 2; //you will double the damage each perfect hit
+                GetComponent<Point_counter>().score += 2 * hitstreak; //it will double the score you get and multiply it by the streak
+                PERFECT = false; //this will turn off the if statement to make sure it does not keep looping
+                print("PERFECT"); //this is another simple debug message
+            }
+            else //if the player does not hit the arrow perfectly in the area, it will reset the damage multiplier and set the judgement text to "good" as reference, the judgement text is on the top left
+            {
+
+                damage = 1; //this sets the damage to 1
+                judgement = "good"; //the judgement text will show the word "good" as player feedback
+
+            }
+
+            enemy1[0].GetComponent<enemy_interaction>().hp -= damage; //this will make the enemy take damage based on the damage value in the above script
+            print(enemy1[0].GetComponent<enemy_interaction>().hp); //this is yet another debug message to check how much health the enemy has (before the healthbar was added)
+
+            if (arrowtype == 4)//the rest of the code will indicate what animation should be played depending on the arrow type, then resetting the arrow type to 0 to make sure it does not loop. This was all implemented before put in a function, if this were not in a function it would likely work fine if placed in an if statement with a boolean function
+            {
+
+                player.SetTrigger("right_stab"); //this is the right hit animation trigger
+                arrowtype = 0; //this sets the arrow type value to 0 to set the player back to the idle state, this is used in each statement below
+
+            }
+
+            if (arrowtype == 3)
+            {
+
+                player.SetTrigger("left_stab"); //this is the left hit animation trigger
+                arrowtype = 0;
+
+            }
+
+            if (arrowtype == 2)
+            {
+
+                player.SetTrigger("down_stab"); //this is the down hit animation trigger
+                arrowtype = 0;
+
+            }
+
+            if (arrowtype == 1)
+            {
+
+                player.SetTrigger("up_stab"); //this is the up hit animation trigger
+                arrowtype = 0;
+
+            }
+            enemy[0].SetTrigger("damaged"); //this will tell the enemy animator that the enemy got hit and enable the trigger to enable the animation
+            slider.value += 2; //this will increase the player health by two (per hit)
+            hitstreak++; //this will increase the streak per hit, multiplying the amount of points you get
+            difficulty += 0.1f; //this will increase the difficulty, adding speed and making the arrows spawn faster (button mashing will not help too much with this)
+            StartCoroutine(streak()); //this will turn on the streak if it were turned off initially, coroutine explanation will be in the streak function
+            didhit = false; //this was unused.
+            GetComponent<Point_counter>().judge = judgement; //this will update the judgement text on the top left
+            swing.Play(); //this will play the "swing" sound, which really just was me reusing the audio file given by you in the coding gym package.
         }
-        else //if the player does not hit the arrow perfectly in the area, it will reset the damage multiplier and set the judgement text to "good" as reference, the judgement text is on the top left
-        {
-
-            damage = 1; //this sets the damage to 1
-            judgement = "good"; //the judgement text will show the word "good" as player feedback
-
-        }
-
-        enemy1[0].GetComponent<enemy_interaction>().hp -= damage; //this will make the enemy take damage based on the damage value in the above script
-        print(enemy1[0].GetComponent<enemy_interaction>().hp); //this is yet another debug message to check how much health the enemy has (before the healthbar was added)
-
-        if (arrowtype == 4)//the rest of the code will indicate what animation should be played depending on the arrow type, then resetting the arrow type to 0 to make sure it does not loop. This was all implemented before put in a function, if this were not in a function it would likely work fine if placed in an if statement with a boolean function
-        {
-
-            player.SetTrigger("right_stab"); //this is the right hit animation trigger
-            arrowtype = 0; //this sets the arrow type value to 0 to set the player back to the idle state, this is used in each statement below
-
-        }
-
-        if (arrowtype == 3)
-        {
-
-            player.SetTrigger("left_stab"); //this is the left hit animation trigger
-            arrowtype = 0;
-
-        }
-
-        if (arrowtype == 2)
-        {
-
-            player.SetTrigger("down_stab"); //this is the down hit animation trigger
-            arrowtype = 0;
-
-        }
-
-        if (arrowtype == 1)
-        {
-
-            player.SetTrigger("up_stab"); //this is the up hit animation trigger
-            arrowtype = 0;
-
-        }
-        enemy[0].SetTrigger("damaged"); //this will tell the enemy animator that the enemy got hit and enable the trigger to enable the animation
-        slider.value += 2; //this will increase the player health by two (per hit)
-        hitstreak++; //this will increase the streak per hit, multiplying the amount of points you get
-        difficulty += 0.1f; //this will increase the difficulty, adding speed and making the arrows spawn faster (button mashing will not help too much with this)
-        StartCoroutine(streak()); //this will turn on the streak if it were turned off initially, coroutine explanation will be in the streak function
-        didhit = false; //this was unused.
-        GetComponent<Point_counter>().judge = judgement; //this will update the judgement text on the top left
-        swing.Play(); //this will play the "swing" sound, which really just was me reusing the audio file given by you in the coding gym package.
-
     }
 
     public void missed() //this will continue the script below, which will indicate that the player missed
     {
 
-
-        miss.Play(); //this plays the miss sound, which again was reused from your package.
-        player.SetTrigger("miss"); //this will trigger the miss function in the animator, which will play the missed animation
-        StopCoroutine(streak()); //this will stop the coroutine thats checking for the streak
-        enemy[0].SetTrigger("missed"); //this will trigger the enemy damaged animation to play
-        print("miss"); //yet again, another debug message
-        slider.value -= 20; //this will do 20 damage to the player health
-        hitstreak = 0; //it will set the hit streak and difficulty to 0
-        difficulty = 0;
-        didnothit = false; //this is unused, only used if this is put in an if statement
-        GetComponent<Point_counter>().judge = judgement; //this will set the judgement text on the top left of the screen to say any of the miss texts in the arrow_movement script
-
+        if (didnothit)
+        {
+            miss.Play(); //this plays the miss sound, which again was reused from your package.
+            player.SetTrigger("miss"); //this will trigger the miss function in the animator, which will play the missed animation
+            StopCoroutine(streak()); //this will stop the coroutine thats checking for the streak
+            enemy[0].SetTrigger("missed"); //this will trigger the enemy damaged animation to play
+            print("miss"); //yet again, another debug message
+            slider.value -= 20; //this will do 20 damage to the player health
+            hitstreak = 0; //it will set the hit streak and difficulty to 0
+            difficulty = 0;
+            didnothit = false; //this is unused, only used if this is put in an if statement
+            GetComponent<Point_counter>().judge = judgement; //this will set the judgement text on the top left of the screen to say any of the miss texts in the arrow_movement script
+        }
     }
 
     IEnumerator streak() { //this is the streak coroutine, it will only start when the streak is greater than 1. It will enable the streak text above the score.

@@ -110,7 +110,7 @@ public class arrow_movement : MonoBehaviour
                         SpawnerController.arrowtype = type; //(same as above comment)
                         SpawnerController.hit(); //this will tell the controller that the player hit the arrow
                         Destroy(gameObject); //this will delete the arrow after it detects the player input in the area
-                                             //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right (W,S,A,D)
+                        SpawnerController.didhit = true;                     //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right (W,S,A,D)
 
                     }
                 }
@@ -126,7 +126,7 @@ public class arrow_movement : MonoBehaviour
                         type = 2;
 
                         SpawnerController.arrowtype = type;SpawnerController.hit();
-
+                        SpawnerController.didhit = true;
                         Destroy(gameObject);
 
                     }
@@ -136,7 +136,7 @@ public class arrow_movement : MonoBehaviour
                 {
                     if (Input.GetKey(KeyCode.A))
                     {
-                        
+                        SpawnerController.didhit = true;
                         SpawnerController.judgement = "good";
                         type = 3;
                         SpawnerController.arrowtype = type;
@@ -150,7 +150,7 @@ public class arrow_movement : MonoBehaviour
                 {
                     if (Input.GetKey(KeyCode.D))
                     {
-                        
+                        SpawnerController.didhit = true;
                         type = 4;
                         SpawnerController.judgement = "good";
                         SpawnerController.arrowtype = type;
@@ -196,7 +196,7 @@ public class arrow_movement : MonoBehaviour
                 {
                     SpawnerController.judgement = "well that hurt";
                 }
-
+                SpawnerController.didnothit = true;
                 SpawnerController.missed(); //tells the spawner that the player missed
                 Destroy(gameObject); //destroys the arrow so theres no overload on objects (and lag)
 
