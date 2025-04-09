@@ -99,8 +99,7 @@ public class ArrowSpawner : MonoBehaviour
 
     public void hit() { //this function will cause the script below to run when called on, which will check if the player got a perfect hit, or a normal hit and do damage and give score accordingly
 
-        if (didhit)
-        {
+        
             print("hit"); //a simple debug message to help me figure out any issues in the code
             if (PERFECT) //this will check if the player got a perfect, If the player gets a perfect :
             {
@@ -157,28 +156,30 @@ public class ArrowSpawner : MonoBehaviour
             hitstreak++; //this will increase the streak per hit, multiplying the amount of points you get
             difficulty += 0.1f; //this will increase the difficulty, adding speed and making the arrows spawn faster (button mashing will not help too much with this)
             StartCoroutine(streak()); //this will turn on the streak if it were turned off initially, coroutine explanation will be in the streak function
-            didhit = false; //this was unused.
+            didhit = false; //this was used in case the code keeps looping.
+            GetComponent<Point_counter>().score += 1 * hitstreak; //this multiplies the score with the hit streak
             GetComponent<Point_counter>().judge = judgement; //this will update the judgement text on the top left
             swing.Play(); //this will play the "swing" sound, which really just was me reusing the audio file given by you in the coding gym package.
-        }
+        
     }
 
     public void missed() //this will continue the script below, which will indicate that the player missed
     {
 
-        if (didnothit)
-        {
+        
+        
             miss.Play(); //this plays the miss sound, which again was reused from your package.
             player.SetTrigger("miss"); //this will trigger the miss function in the animator, which will play the missed animation
             StopCoroutine(streak()); //this will stop the coroutine thats checking for the streak
             enemy[0].SetTrigger("missed"); //this will trigger the enemy damaged animation to play
             print("miss"); //yet again, another debug message
+            StopCoroutine(streak()); //this will stop the coroutine thats checking for the streak
             slider.value -= 20; //this will do 20 damage to the player health
             hitstreak = 0; //it will set the hit streak and difficulty to 0
             difficulty = 0;
-            didnothit = false; //this is unused, only used if this is put in an if statement
+            didnothit = false; //this is used in case the score keeps looping
             GetComponent<Point_counter>().judge = judgement; //this will set the judgement text on the top left of the screen to say any of the miss texts in the arrow_movement script
-        }
+        
     }
 
     IEnumerator streak() { //this is the streak coroutine, it will only start when the streak is greater than 1. It will enable the streak text above the score.
@@ -186,7 +187,7 @@ public class ArrowSpawner : MonoBehaviour
         while (hitstreak > 0) //i wasn't sure if this was required in a coroutine, I added it just in case.
         {
             
-            GetComponent<Point_counter>().score += 1*hitstreak; //this multiplies the score with the hit streak
+            
             GetComponent<Point_counter>().streak1 = hitstreak; //this updates the streak the player has (each hit increases the streak)
             yield return null; //this will return null to let the coroutine return the values to the other scripts and objects
 
