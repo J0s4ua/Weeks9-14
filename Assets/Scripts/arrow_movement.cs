@@ -32,7 +32,7 @@ public class arrow_movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SpawnerController.slider.value > 0)
+        if (SpawnerController.slider.value > 0) //this checks if the player health is above 0
         {
             Vector2 arrowpos = transform.position; //this will read the position of the arrow object
 
@@ -106,10 +106,10 @@ public class arrow_movement : MonoBehaviour
                     {
                         
                         SpawnerController.judgement = "good"; //this will indicate the player accuracy weither they hit the arrow in the radius of the "good" catagory or the "Perfect" catagory
-                        type = 1; //this will return the arrow type to the spawner
+                        type = 1; //this will return the arrow type to the spawner to indicates to the spawner which arrow is pressed
                         SpawnerController.arrowtype = type; //(same as above comment)
                         SpawnerController.hit(); //this will tell the controller that the player hit the arrow
-                        Destroy(gameObject); //this will delete the arrow
+                        Destroy(gameObject); //this will delete the arrow after it detects the player input in the area
                                              //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right (W,S,A,D)
 
                     }
