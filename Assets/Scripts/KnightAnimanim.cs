@@ -10,10 +10,15 @@ public class KnightAnimanim : MonoBehaviour
     Animator anim;
     public float speed = 2;
     public bool canRun = true;
+    public int r_step_sound;
+    public AudioSource steps;
+    public AudioClip[] footsteps;
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        steps = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -45,5 +50,15 @@ public class KnightAnimanim : MonoBehaviour
         Debug.Log("The  attack anim finihsed");
         canRun = true;
     
+    }
+
+    public void Footstep()
+    {
+
+        int randomnum = Random.Range(0,footsteps.Length);
+        Debug.Log("step" + randomnum);
+        steps.PlayOneShot(footsteps[randomnum]);
+        
+
     }
 }
