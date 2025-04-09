@@ -32,6 +32,7 @@ public class ArrowSpawner : MonoBehaviour
     public int arrowtype; //indicates the type of arrow that was hit
     public int damage;
     public int highscore;
+    public bool dead_anim_played = false;
 
     void Start()
     {
@@ -41,8 +42,19 @@ public class ArrowSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (slider.value > 0)
+
+        if(slider.value <= 0) //this will play the death animation for the player checking if the health is equal to or lower than 0
         {
+
+            player.SetTrigger("dead"); //this tells the player animator to trigger the dead state
+            
+
+        }
+
+        if (slider.value > 0) //this checks if the health is above 0
+        {
+
+            
 
 
 
@@ -60,15 +72,15 @@ public class ArrowSpawner : MonoBehaviour
             if (timer >= randomTime) //this will spawn an arrow and add it to the array to count the arrows
             {
                 Arrows = Instantiate(arrow[Randomint]); //this will spawn the arrow based on the randomized variable and place it in the spawn area
-                arrow2.Add(Arrows);
+                arrow2.Add(Arrows); //this will put the arrows in a list for the script to check an arrow
 
-                arrow_movement spawnedArrow = Arrows.GetComponent<arrow_movement>();
+                arrow_movement spawnedArrow = Arrows.GetComponent<arrow_movement>(); //this will indicate to the script what the arrow object is
 
 
-                timer = 0;
+                timer = 0; //this sets the timer to 0 after its done
 
-                spawnedArrow.SpawnerController = this;
-                spawnedArrow.difficulty_multiplier = difficulty;
+                spawnedArrow.SpawnerController = this; //this will tell the copied arrow what the spawner is so it can give its values to it
+                spawnedArrow.difficulty_multiplier = difficulty; //
 
 
 
@@ -81,95 +93,102 @@ public class ArrowSpawner : MonoBehaviour
             if (didhit)
             {
 
-                print("hit");
-                if (PERFECT)
-                {
-                    judgement = "PERFECT!";
-                    damage = 2;
-                    GetComponent<Point_counter>().score += 2 * hitstreak;
-                    PERFECT = false;
-                    print("PERFECT");
-                }
-                else
-                {
-
-                    damage = 1;
-                    judgement = "good";
-
-                }
-
-                enemy1[0].GetComponent<enemy_interaction>().hp -= damage;
-                print(enemy1[0].GetComponent<enemy_interaction>().hp);
-
-                if (arrowtype == 4)
-                {
-
-                    player.SetTrigger("right_stab");
-                    arrowtype = 0;
-
-                }
-
-                if (arrowtype == 3)
-                {
-
-                    player.SetTrigger("left_stab");
-                    arrowtype = 0;
-
-                }
-
-                if (arrowtype == 2)
-                {
-
-                    player.SetTrigger("down_stab");
-                    arrowtype = 0;
-
-                }
-
-                if (arrowtype == 1)
-                {
-
-                    player.SetTrigger("up_stab");
-                    arrowtype = 0;
-
-                }
-                enemy[0].SetTrigger("damaged");
-                slider.value += 2;
-                hitstreak++;
-                difficulty += 0.1f;
-                StartCoroutine(streak());
-                didhit = false;
-                GetComponent<Point_counter>().judge = judgement;
-                swing.Play();
+                
 
             }
             if (didnothit)
             {
-                miss.Play();
-                player.SetTrigger("miss");
-                StopCoroutine(streak());
-                enemy[0].SetTrigger("missed");
-                print("miss");
-                slider.value -= 20;
-                hitstreak = 0;
-                difficulty = 0;
-                didnothit = false;
-                GetComponent<Point_counter>().judge = judgement;
+                
 
             }
+
+
+            
         }
 
-        if (slider.value <= 0) {
+        
+    }
 
-            player.SetTrigger("dead");
+    public void hit() {
 
+
+        print("hit");
+        if (PERFECT)
+        {
+            judgement = "PERFECT!";
+            damage = 2;
+            GetComponent<Point_counter>().score += 2 * hitstreak;
+            PERFECT = false;
+            print("PERFECT");
         }
-
-        if (slider.value > 0)
+        else
         {
 
-            player.SetTrigger("revive");
+            damage = 1;
+            judgement = "good";
 
         }
+
+        enemy1[0].GetComponent<enemy_interaction>().hp -= damage;
+        print(enemy1[0].GetComponent<enemy_interaction>().hp);
+
+        if (arrowtype == 4)
+        {
+
+            player.SetTrigger("right_stab");
+            arrowtype = 0;
+
+        }
+
+        if (arrowtype == 3)
+        {
+
+            player.SetTrigger("left_stab");
+            arrowtype = 0;
+
+        }
+
+        if (arrowtype == 2)
+        {
+
+            player.SetTrigger("down_stab");
+            arrowtype = 0;
+
+        }
+
+        if (arrowtype == 1)
+        {
+
+            player.SetTrigger("up_stab");
+            arrowtype = 0;
+
+        }
+        enemy[0].SetTrigger("damaged");
+        slider.value += 2;
+        hitstreak++;
+        difficulty += 0.1f;
+        StartCoroutine(streak());
+        didhit = false;
+        GetComponent<Point_counter>().judge = judgement;
+        swing.Play();
+
+    }
+
+    public void missed()
+    {
+
+
+        miss.Play();
+        player.SetTrigger("miss");
+        StopCoroutine(streak());
+        enemy[0].SetTrigger("missed");
+        print("miss");
+        slider.value -= 20;
+        hitstreak = 0;
+        difficulty = 0;
+        didnothit = false;
+        GetComponent<Point_counter>().judge = judgement;
+
     }
 
     IEnumerator streak() {
@@ -183,14 +202,6 @@ public class ArrowSpawner : MonoBehaviour
     
     }
 
-    public void restart() {
-
-        
-        highscore = (int)GetComponent<Point_counter>().score;
-        GetComponent<Point_counter>().score = 0;
-        hitstreak = 0;
-        slider.value = 50;
-
-    }
+    
 
 }

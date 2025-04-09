@@ -104,10 +104,11 @@ public class arrow_movement : MonoBehaviour
 
                     if (Input.GetKey(KeyCode.W)) //this checks the key that the player pressed, if the key is the right key it will continue with this section
                     {
-                        SpawnerController.didhit = true; //If the player presses the right key it will toggle the "didhit" variable to true to tell the spawner script that the player hit the arrow
+                        
                         SpawnerController.judgement = "good"; //this will indicate the player accuracy weither they hit the arrow in the radius of the "good" catagory or the "Perfect" catagory
                         type = 1; //this will return the arrow type to the spawner
                         SpawnerController.arrowtype = type; //(same as above comment)
+                        SpawnerController.hit(); //this will tell the controller that the player hit the arrow
                         Destroy(gameObject); //this will delete the arrow
                                              //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right
 
@@ -120,11 +121,12 @@ public class arrow_movement : MonoBehaviour
                 {
                     if (Input.GetKey(KeyCode.S))
                     {
-                        SpawnerController.didhit = true;
+                        
                         SpawnerController.judgement = "good";
                         type = 2;
 
-                        SpawnerController.arrowtype = type;
+                        SpawnerController.arrowtype = type;SpawnerController.hit();
+
                         Destroy(gameObject);
 
                     }
@@ -134,10 +136,11 @@ public class arrow_movement : MonoBehaviour
                 {
                     if (Input.GetKey(KeyCode.A))
                     {
-                        SpawnerController.didhit = true;
+                        
                         SpawnerController.judgement = "good";
                         type = 3;
                         SpawnerController.arrowtype = type;
+                        SpawnerController.hit();
                         Destroy(gameObject);
 
                     }
@@ -147,10 +150,11 @@ public class arrow_movement : MonoBehaviour
                 {
                     if (Input.GetKey(KeyCode.D))
                     {
-                        SpawnerController.didhit = true;
+                        
                         type = 4;
                         SpawnerController.judgement = "good";
                         SpawnerController.arrowtype = type;
+                        SpawnerController.hit();
                         Destroy(gameObject);
 
                     }
@@ -194,6 +198,7 @@ public class arrow_movement : MonoBehaviour
                 }
 
                 SpawnerController.didnothit = true; //tells the spawner that the player missed
+                SpawnerController.missed();
                 Destroy(gameObject); //destroys the arrow so theres no overload on objects (and lag)
 
             }
