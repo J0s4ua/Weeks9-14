@@ -35,7 +35,7 @@ public class enemy_interaction : MonoBehaviour
             enemy_death = Instantiate(enemy_death2);
             score_counter.GetComponent<Point_counter>().score += 20 * score_counter.GetComponent<ArrowSpawner>().hitstreak;
             print("killed enemy");
-            hp = Random.Range(20,50);
+            hp = Random.Range(50,100);
             deaths++;
 
         }

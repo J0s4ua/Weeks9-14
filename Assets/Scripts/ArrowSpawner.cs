@@ -88,7 +88,7 @@ public class ArrowSpawner : MonoBehaviour
 
             }
 
-            GetComponent<Point_counter>().streak1 = hitstreak; //this updates the streak the player has (each hit increases the streak)
+            
 
 
             
@@ -166,36 +166,43 @@ public class ArrowSpawner : MonoBehaviour
     {
 
 
-        miss.Play();
-        player.SetTrigger("miss");
-        StopCoroutine(streak());
-        enemy[0].SetTrigger("missed");
-        print("miss");
-        slider.value -= 20;
-        hitstreak = 0;
+        miss.Play(); //this plays the miss sound, which again was reused from your package.
+        player.SetTrigger("miss"); //this will trigger the miss function in the animator, which will play the missed animation
+        StopCoroutine(streak()); //this will stop the coroutine thats checking for the streak
+        enemy[0].SetTrigger("missed"); //this will trigger the enemy damaged animation to play
+        print("miss"); //yet again, another debug message
+        slider.value -= 20; //this will do 20 damage to the player health
+        hitstreak = 0; //it will set the hit streak and difficulty to 0
         difficulty = 0;
-        didnothit = false;
-        GetComponent<Point_counter>().judge = judgement;
+        didnothit = false; //this is unused, only used if this is put in an if statement
+        GetComponent<Point_counter>().judge = judgement; //this will set the judgement text on the top left of the screen to say any of the miss texts in the arrow_movement script
 
     }
 
-    IEnumerator streak() {
+    IEnumerator streak() { //this is the streak coroutine, it will only start when the streak is greater than 1. It will enable the streak text above the score.
 
-        while (hitstreak > 0 && didhit == true)
+        while (hitstreak > 0) //i wasn't sure if this was required in a coroutine, I added it just in case.
         {
             
-            GetComponent<Point_counter>().score += 1*hitstreak;
-            yield return null;
+            GetComponent<Point_counter>().score += 1*hitstreak; //this multiplies the score with the hit streak
+            GetComponent<Point_counter>().streak1 = hitstreak; //this updates the streak the player has (each hit increases the streak)
+            yield return null; //this will return null to let the coroutine return the values to the other scripts and objects
+
         }
     
     }
 
-    public void restart() {
+    public void restart() { //this function will only play once the 
 
-        highscore = (int)GetComponent<Point_counter>().score;
-        hitstreak = 0;
-        GetComponent<Point_counter>().score = 0;
-        slider.value = 50;
+        slider.value = 50; //sets the health back to what it was on the first run
+        player.SetTrigger("revive"); //sets the player animation to the idle state
+        if (highscore < (int)GetComponent<Point_counter>().score)
+        {
+            highscore = (int)GetComponent<Point_counter>().score; //sets the score to the high score if the score is larger than the previous high score
+        }
+        hitstreak = 0; //sets the streak back to 0
+        GetComponent<Point_counter>().score = 0; //sets the score to 0
+        player.SetTrigger("up"); //in case the player animation does not go back to the idle state
 
 
     }
