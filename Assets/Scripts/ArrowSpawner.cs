@@ -176,7 +176,7 @@ public class ArrowSpawner : MonoBehaviour
             StopCoroutine(streak()); //this will stop the coroutine thats checking for the streak
             slider.value -= 20; //this will do 20 damage to the player health
             hitstreak = 0; //it will set the hit streak and difficulty to 0
-            difficulty = 0;
+            difficulty = 0; //(above comment)
             didnothit = false; //this is used in case the score keeps looping
             GetComponent<Point_counter>().judge = judgement; //this will set the judgement text on the top left of the screen to say any of the miss texts in the arrow_movement script
         
