@@ -26,6 +26,6 @@ public class enemy_dead : MonoBehaviour
         
         }
 
-        transform.position = position; //this sets the gameobject position
+        transform.position = position; //this sets the gameobject position to the position stored by the script (or position variable)
     }
 }
