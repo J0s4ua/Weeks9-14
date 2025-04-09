@@ -80,7 +80,7 @@ public class ArrowSpawner : MonoBehaviour
                 timer = 0; //this sets the timer to 0 after its done
 
                 spawnedArrow.SpawnerController = this; //this will tell the copied arrow what the spawner is so it can give its values to it
-                spawnedArrow.difficulty_multiplier = difficulty; //
+                spawnedArrow.difficulty_multiplier = difficulty; //this tells the arrow_movement script how fast the arrows move
 
 
 
@@ -88,19 +88,7 @@ public class ArrowSpawner : MonoBehaviour
 
             }
 
-            GetComponent<Point_counter>().streak1 = hitstreak;
-
-            if (didhit)
-            {
-
-                
-
-            }
-            if (didnothit)
-            {
-                
-
-            }
+            GetComponent<Point_counter>().streak1 = hitstreak; //this updates the streak the player has (each hit increases the streak)
 
 
             
@@ -109,19 +97,19 @@ public class ArrowSpawner : MonoBehaviour
         
     }
 
-    public void hit() {
+    public void hit() { //this function will cause the script below to run when called on, which will check if the player got a perfect hit, or a normal hit and do damage and give score accordingly
 
 
-        print("hit");
-        if (PERFECT)
+        print("hit"); //a simple debug message to help me figure out any issues in the code
+        if (PERFECT) //this will check if the player got a perfect, If the player gets a perfect :
         {
-            judgement = "PERFECT!";
-            damage = 2;
-            GetComponent<Point_counter>().score += 2 * hitstreak;
-            PERFECT = false;
-            print("PERFECT");
+            judgement = "PERFECT!"; //the judgement text will show the word "Perfect" as player feedback
+            damage *= 2; //you will double the damage each perfect hit
+            GetComponent<Point_counter>().score += 2 * hitstreak; //it will double the score you get and multiply it by the hit streak
+            PERFECT = false; //this will turn off the if statement to make sure it does not keep looping
+            print("PERFECT"); //this is another simple debug message
         }
-        else
+        else //if the player does not hit the arrow perfectly in the area, it will reset the damage multiplier and set the judgement text to "good" as reference, the judgement text is on the top left
         {
 
             damage = 1;
@@ -129,13 +117,13 @@ public class ArrowSpawner : MonoBehaviour
 
         }
 
-        enemy1[0].GetComponent<enemy_interaction>().hp -= damage;
-        print(enemy1[0].GetComponent<enemy_interaction>().hp);
+        enemy1[0].GetComponent<enemy_interaction>().hp -= damage; //this will make the enemy take damage based on the damage value in the above script
+        print(enemy1[0].GetComponent<enemy_interaction>().hp); //this is yet another debug message to check how much health the enemy has (before the healthbar was added)
 
-        if (arrowtype == 4)
+        if (arrowtype == 4)//the rest of the code will indicate what animation should be played depending on the arrow type, then resetting the arrow type to 0 to make sure it does not loop. This was all implemented before put in a function, if this were not in a function it would likely work fine if placed in an if statement with a boolean function
         {
 
-            player.SetTrigger("right_stab");
+            player.SetTrigger("right_stab"); //this is the right hit animation trigger
             arrowtype = 0;
 
         }
@@ -143,7 +131,7 @@ public class ArrowSpawner : MonoBehaviour
         if (arrowtype == 3)
         {
 
-            player.SetTrigger("left_stab");
+            player.SetTrigger("left_stab"); //this is the left hit animation trigger
             arrowtype = 0;
 
         }
@@ -151,7 +139,7 @@ public class ArrowSpawner : MonoBehaviour
         if (arrowtype == 2)
         {
 
-            player.SetTrigger("down_stab");
+            player.SetTrigger("down_stab"); //this is the down hit animation trigger
             arrowtype = 0;
 
         }
@@ -159,22 +147,22 @@ public class ArrowSpawner : MonoBehaviour
         if (arrowtype == 1)
         {
 
-            player.SetTrigger("up_stab");
+            player.SetTrigger("up_stab"); //this is the up hit animation trigger
             arrowtype = 0;
 
         }
-        enemy[0].SetTrigger("damaged");
-        slider.value += 2;
-        hitstreak++;
-        difficulty += 0.1f;
-        StartCoroutine(streak());
-        didhit = false;
-        GetComponent<Point_counter>().judge = judgement;
-        swing.Play();
+        enemy[0].SetTrigger("damaged"); //this will tell the enemy animator that the enemy got hit and enable the trigger to enable the animation
+        slider.value += 2; //this will increase the player health by two (per hit)
+        hitstreak++; //this will increase the streak per hit, multiplying the amount of points you get
+        difficulty += 0.1f; //this will increase the difficulty, adding speed and making the arrows spawn faster (button mashing will not help too much with this)
+        StartCoroutine(streak()); //this will turn on the streak if it were turned off initially, coroutine explanation will be in the streak function
+        didhit = false; //this was unused.
+        GetComponent<Point_counter>().judge = judgement; //this will update the judgement text on the top left
+        swing.Play(); //this will play the "swing" sound, which really just was me reusing the audio file given by you in the coding gym package.
 
     }
 
-    public void missed()
+    public void missed() //this will continue the script below, which will indicate that the player missed
     {
 
 
@@ -200,6 +188,16 @@ public class ArrowSpawner : MonoBehaviour
             yield return null;
         }
     
+    }
+
+    public void restart() {
+
+        highscore = (int)GetComponent<Point_counter>().score;
+        hitstreak = 0;
+        GetComponent<Point_counter>().score = 0;
+        slider.value = 50;
+
+
     }
 
     

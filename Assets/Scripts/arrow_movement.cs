@@ -110,7 +110,7 @@ public class arrow_movement : MonoBehaviour
                         SpawnerController.arrowtype = type; //(same as above comment)
                         SpawnerController.hit(); //this will tell the controller that the player hit the arrow
                         Destroy(gameObject); //this will delete the arrow
-                                             //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right
+                                             //this code is copied throughout the rest of the arrow types. First Up, then Down, then Left, then Right (W,S,A,D)
 
                     }
                 }
@@ -197,8 +197,7 @@ public class arrow_movement : MonoBehaviour
                     SpawnerController.judgement = "well that hurt";
                 }
 
-                SpawnerController.didnothit = true; //tells the spawner that the player missed
-                SpawnerController.missed();
+                SpawnerController.missed(); //tells the spawner that the player missed
                 Destroy(gameObject); //destroys the arrow so theres no overload on objects (and lag)
 
             }
